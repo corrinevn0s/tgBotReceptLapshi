@@ -29,7 +29,7 @@ List<Dish> Dishes = new List<Dish>
     },
     new Dish()
     {
-        Name = "Домашний супчик",
+        Name = "Домашний супчик", // Очень вкусный рил
         Look = "https://i2015.otzovik.com/2015/10/21/2524247/img/44962079.jpg",
         Recipe = "Суп с лапшой Ролтон\n\n" +
         "Ингредиенты:\n" +
