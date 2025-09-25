@@ -15,5 +15,6 @@ namespace tgBotReceptLapshi.Models
         public string Name { get; init; }
         public string Look {  get; init; }
         public string Recipe { get; init; }
+        public string Video { get; init; }
     }
 }

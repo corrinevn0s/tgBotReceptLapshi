@@ -60,6 +60,13 @@ List<Dish> Dishes = new List<Dish>
     }
 };
 bot.OnMessage += OnMessage;
+bot.OnError += Bot_OnError;
+
+Task Bot_OnError(Exception exception, Telegram.Bot.Polling.HandleErrorSource source)
+{
+    Console.WriteLine($"{exception.Message}");
+    return Task.CompletedTask;
+}
 
 Console.WriteLine($"@{me.Username} is running... Press Enter to terminate");
 Console.ReadLine();
@@ -94,7 +101,7 @@ async Task OnMessage(Message msg, UpdateType type)
         {
             await bot.SendMessage(msg.Chat, "Ошибка блюд нет");
         }
-        await PrintDish(msg, dish);
+        await PrintDishVideo(msg, dish);
     }
     if (msg.Text == "Потрясающий Домашний супчик")
     {
@@ -112,7 +119,7 @@ async Task OnMessage(Message msg, UpdateType type)
         {
             await bot.SendMessage(msg.Chat, "Ошибка блюд нет");
         }
-        await PrintDish(msg, dish);
+        await PrintDishSticker(msg, dish);
     }
 }
 async Task PrintDish (Message msg,Dish dish)
@@ -122,4 +129,17 @@ async Task PrintDish (Message msg,Dish dish)
             $"ВЫ ВЫБРАЛИ ПОТРЯСАЮЩЕЕ БЛЮДО {
                 dish.Name} \n Рецепт😋: \n {dish.Recipe}"
             );
+}
+async Task PrintDishVideo (Message msg,Dish dish)
+{
+    await using Stream stream = File.OpenRead(@"D:\Проекты VS22 collage\tgBotReceptLapshi\tgBotReceptLapshi\VideoLapsha.mp4");
+    await bot.SendVideo(msg.Chat, stream,caption:dish.Recipe);
+}
+async Task PrintDishSticker(Message msg,Dish dish)
+{
+    var set = await bot.GetStickerSet("v608362537195394_by_StickerEdit_bot");
+    var firstSticker = set.Stickers[27];
+
+    await bot.SendSticker(msg.Chat, InputFile.FromFileId(firstSticker.FileId));
+    await bot.SendMessage(msg.Chat, dish.Recipe);
 }
